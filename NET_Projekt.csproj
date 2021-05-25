@@ -10,6 +10,8 @@
     <Compile Remove="Data\Migrations\20210525192235_AddRecipe.Designer.cs" />
     <Compile Remove="Data\Migrations\20210525194701_AddRecipe.cs" />
     <Compile Remove="Data\Migrations\20210525194701_AddRecipe.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210525213818_AddCategory.cs" />
+    <Compile Remove="Data\Migrations\20210525213818_AddCategory.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

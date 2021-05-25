@@ -9,5 +9,6 @@ namespace NET_Projekt.Models
     public class ApplicationUser : IdentityUser
     {
         public List<Recipe> Recipes { get; set; }
+        public List<Category> Categories { get; set; }
     }
 }

@@ -1,0 +1,42 @@
+﻿@page
+@model NET_Projekt.Pages.CategoryRecipes.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryRecipe[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryRecipe[0].Recipe)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.CategoryRecipe) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recipe.Name)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-categoryId="@item.CategoryID">Edit</a> |
+                <a asp-page="./Details" asp-route-recipeId="@item.RecipeID" asp-route-categoryId="@item.CategoryID">Details</a> |
+                <a asp-page="./Delete" asp-route-recipeId="@item.RecipeID" asp-route-categoryId="@item.CategoryID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
