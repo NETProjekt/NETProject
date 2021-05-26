@@ -11,7 +11,7 @@ namespace NET_Projekt.Models
     {
         public int Id { get; set; }
         [Column(TypeName = "varchar(30)")]
-        [Display(Name="Nazwa")]
+        [Display(Name="Nazwa Kategorii")]
         [Required]
         public string Name { get; set; }
         public string ApplicationUserID { get; set; }

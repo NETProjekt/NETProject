@@ -20,3 +20,30 @@
     </div>
     <br>
 }
+<form method="get">
+    <div class="form-group">
+        <h6>Wyszukaj przepisy po kategorii: </h6>
+        <select asp-for="CategoryRecipe" class="form-control" asp-items="ViewBag.CategoryID"></select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Szukaj" class="btn btn-primary" />
+    </div>
+</form>
+@if (Model.CategoryRecipe != null)
+{
+    @foreach (var item in Model.CategoryRecipes)
+    {
+        <h3>
+            @Html.DisplayNameFor(model => item.Recipe.Name):
+            @item.Recipe.Name
+        </h3>
+        <p>
+            Autor:
+            @item.Recipe.ApplicationUser.UserName
+        </p>
+        <p>
+            <a asp-page="./Recipes/Details" asp-route-id="@item.RecipeID">Details</a>
+        </p>
+    }
+}
+

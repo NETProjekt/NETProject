@@ -12,7 +12,7 @@ namespace NET_Projekt.Models
         public int Id { get; set; }
         [Required]
         [Column(TypeName = "varchar(100)")]
-        [Display(Name = "Nazwa")]
+        [Display(Name = "Nazwa Przepisu")]
         public string Name { get; set; }
         [Required]
         [Column(TypeName = "varchar(1000)")]

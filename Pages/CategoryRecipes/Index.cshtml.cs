@@ -21,10 +21,15 @@ namespace NET_Projekt.Pages.CategoryRecipes
 
         public IList<CategoryRecipe> CategoryRecipe { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id)
         {
+            if(id == null)
+            {
+                NotFound();
+            }
             CategoryRecipe = await _context.CategoryRecipes
                 .Include(c => c.Category)
+                .Where(m => m.Category.Id == id)
                 .Include(c => c.Recipe).ToListAsync();
         }
     }
