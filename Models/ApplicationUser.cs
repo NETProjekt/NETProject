@@ -10,5 +10,6 @@ namespace NET_Projekt.Models
     {
         public List<Recipe> Recipes { get; set; }
         public List<Category> Categories { get; set; }
+        public List<Raiting> Raitings { get; set; }
     }
 }
