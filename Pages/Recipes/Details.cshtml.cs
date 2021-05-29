@@ -16,6 +16,7 @@ namespace NET_Projekt.Pages.Recipes
         private readonly NET_Projekt.Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         public int Raiting { get; set; }
+        public int Ratio { get; set; }
 
         public DetailsModel(NET_Projekt.Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -85,6 +86,9 @@ namespace NET_Projekt.Pages.Recipes
                 sum += Convert.ToInt32(item.IsPositive);
             }
             Raiting = sum;
+            decimal dRaiting = Raiting;
+            decimal dRaitings = Raitings.Count;
+            Ratio = Convert.ToInt32(dRaiting / dRaitings * 100);
             if (Recipe == null)
             {
                 return NotFound();
