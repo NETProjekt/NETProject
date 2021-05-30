@@ -22,16 +22,20 @@ namespace NET_Projekt.Pages.Raitings
         [BindProperty]
         public Raiting Raiting { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string id)
+        public async Task<IActionResult> OnGetAsync(int? recipeId, string applicationUserId)
         {
-            if (id == null)
+            if (recipeId == null)
+            {
+                return NotFound();
+            }
+            if (applicationUserId == null)
             {
                 return NotFound();
             }
 
             Raiting = await _context.Raitings
-                .Include(r => r.ApplicationUser)
-                .Include(r => r.Recipe).FirstOrDefaultAsync(m => m.ApplicationUserID == id);
+                .Include(r => r.ApplicationUser).Where(r => r.ApplicationUserID == applicationUserId)
+                .Include(r => r.Recipe).FirstOrDefaultAsync(m => m.RecipeID == recipeId);
 
             if (Raiting == null)
             {
@@ -40,14 +44,18 @@ namespace NET_Projekt.Pages.Raitings
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string id)
+        public async Task<IActionResult> OnPostAsync(int? recipeId, string applicationUserId)
         {
-            if (id == null)
+            if (recipeId == null)
+            {
+                return NotFound();
+            }
+            if (applicationUserId == null)
             {
                 return NotFound();
             }
 
-            Raiting = await _context.Raitings.FindAsync(id);
+            Raiting = await _context.Raitings.FindAsync(recipeId, applicationUserId);
 
             if (Raiting != null)
             {

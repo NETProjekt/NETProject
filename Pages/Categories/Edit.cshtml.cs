@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,10 +15,12 @@ namespace NET_Projekt.Pages.Categories
     public class EditModel : PageModel
     {
         private readonly NET_Projekt.Data.ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public EditModel(NET_Projekt.Data.ApplicationDbContext context)
+        public EditModel(NET_Projekt.Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -49,7 +52,7 @@ namespace NET_Projekt.Pages.Categories
             {
                 return Page();
             }
-
+            Category.ApplicationUserID = _userManager.GetUserId(User);
             _context.Attach(Category).State = EntityState.Modified;
 
             try

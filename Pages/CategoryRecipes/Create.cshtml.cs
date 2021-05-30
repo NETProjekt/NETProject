@@ -30,10 +30,10 @@ namespace NET_Projekt.Pages.CategoryRecipes
             {
                 NotFound();
             }
-            CategoryRecipe.CategoryID = (int)id;
+            CategoryRecipe.RecipeID = (int)id;
             this.name = name;
-        //ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
-        ViewData["RecipeID"] = new SelectList(_context.Recipes, "Id", "Name");
+        ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
+        //ViewData["RecipeID"] = new SelectList(_context.Recipes, "Id", "Name");
             return Page();
         }
 
@@ -51,7 +51,7 @@ namespace NET_Projekt.Pages.CategoryRecipes
             _context.CategoryRecipes.Add(CategoryRecipe);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("../Categories/Index");
+            return RedirectToPage("../Recipes/Index");
         }
     }
 }

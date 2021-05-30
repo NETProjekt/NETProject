@@ -15,6 +15,7 @@ namespace NET_Projekt.Pages.Recipes
     {
         private readonly NET_Projekt.Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        public bool isRated { get; set; }
         public int Raiting { get; set; }
         public int Ratio { get; set; }
 
@@ -73,6 +74,27 @@ namespace NET_Projekt.Pages.Recipes
             await GetData(id);
             return Page();
         }
+        public async Task<IActionResult> OnPostDelete(int? recipeId, string applicationUserId)
+        {
+            if (recipeId == null)
+            {
+                return NotFound();
+            }
+            if (applicationUserId == null)
+            {
+                return NotFound();
+            }
+
+            NewRaiting = await _context.Raitings.FindAsync(applicationUserId, recipeId);
+
+            if (NewRaiting != null)
+            {
+                _context.Raitings.Remove(NewRaiting);
+                await _context.SaveChangesAsync();
+            }
+            await GetData(recipeId);
+            return Page(); 
+        }
         public async Task<IActionResult> GetData(int? id)
         {
             Recipe = await _context.Recipes
@@ -80,19 +102,31 @@ namespace NET_Projekt.Pages.Recipes
 
             Raitings = await _context.Raitings
                 .Include(rc => rc.Recipe).AsNoTracking().Where(rc => rc.RecipeID == id).ToListAsync();
+
             int sum = 0;
+            isRated = false;
+
             foreach (var item in Raitings)
             {
+                if (_userManager.GetUserId(User) == item.ApplicationUserID)
+                    isRated = true;
                 sum += Convert.ToInt32(item.IsPositive);
             }
+
             Raiting = sum;
             decimal dRaiting = Raiting;
             decimal dRaitings = Raitings.Count;
-            Ratio = Convert.ToInt32(dRaiting / dRaitings * 100);
+
+            if (Raitings.Count != 0)
+                Ratio = Convert.ToInt32(dRaiting / dRaitings * 100);
+            else
+                Ratio = 50;
+
             if (Recipe == null)
             {
                 return NotFound();
             }
+
             return Page();
         }
     }

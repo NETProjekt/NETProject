@@ -28,9 +28,9 @@ namespace NET_Projekt.Pages.CategoryRecipes
                 NotFound();
             }
             CategoryRecipe = await _context.CategoryRecipes
-                .Include(c => c.Category)
-                .Where(m => m.Category.Id == id)
-                .Include(c => c.Recipe).ToListAsync();
+                .Include(c => c.Recipe)
+                .Where(m => m.Recipe.Id == id)
+                .Include(c => c.Category).ToListAsync();
         }
     }
 }
