@@ -31,9 +31,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Recipe.Name)
             </td>
-            <td>
-                <a asp-page="./Edit" asp-route-categoryId="@item.CategoryID">Edit</a> |
-                <a asp-page="./Details" asp-route-recipeId="@item.RecipeID" asp-route-categoryId="@item.CategoryID">Details</a> |
+            <td>               
                 <a asp-page="./Delete" asp-route-recipeId="@item.RecipeID" asp-route-categoryId="@item.CategoryID">Delete</a>
             </td>
         </tr>

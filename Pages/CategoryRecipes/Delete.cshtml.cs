@@ -62,7 +62,7 @@ namespace NET_Projekt.Pages.CategoryRecipes
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("../Categories/Index");
+            return RedirectToPage("../Recipes/Index");
         }
     }
 }
