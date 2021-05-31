@@ -23,19 +23,33 @@ namespace NET_Projekt.Pages
         }
         [BindProperty(SupportsGet =true)]
         public int? CategoryRecipe { get; set; }
+        public string Recipe { get; set; }
+        public string Username { get; set; }
+        public new ApplicationUser User { get; set; }
         public IList<CategoryRecipe> CategoryRecipes { get; set; }
+        public IList<Recipe> Recipes { get; set; }
+
 
         public void OnGet()
         {
             ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
-            if(CategoryRecipe!=null)
+            if (CategoryRecipe != null)
             {
                 CategoryRecipes = _context.CategoryRecipes
                 .Where(m => m.CategoryID == CategoryRecipe)
                 .Include(c => c.Recipe)
                 .Include(u => u.Recipe.ApplicationUser).ToList();
             }
-            
+
+            if (Recipe != null)
+            {
+                Recipes = (IList<Recipe>)_context.Recipes.Where(r => r.Name.Contains(Recipe));
+            }
+
+            if (Username != null)
+            {
+                User = (ApplicationUser)_context.Recipes.Where(r => r.ApplicationUser.UserName.Contains(Username));
+            }
         }
     }
 }
