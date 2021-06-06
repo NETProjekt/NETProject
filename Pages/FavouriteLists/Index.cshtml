@@ -7,36 +7,14 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FavouriteList[0].ApplicationUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FavouriteList[0].Recipe)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.FavouriteList) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Recipe.Content)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+@foreach (var item in Model.FavouriteList)
+{
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Nazwa: @item.Recipe.Name</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Autor: @item.Recipe.ApplicationUser.UserName</h6>
+            <a class="card-link" asp-page="../Recipes/Details" asp-route-id="@item.Recipe.Id">Szczegóły</a>
+            <a class="card-link" asp-page="./Delete" asp-route-recipeId="@item.Recipe.Id" asp-route-applicationUserId="@item.ApplicationUser.Id">Usuń Z Ulubionych</a>
+        </div>
+    </div>
 }
-    </tbody>
-</table>

@@ -22,16 +22,20 @@ namespace NET_Projekt.Pages.FavouriteLists
         [BindProperty]
         public FavouriteList FavouriteList { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string id)
+        public async Task<IActionResult> OnGetAsync(string applicationUserId, int? recipeId)
         {
-            if (id == null)
+            if (recipeId == null)
+            {
+                return NotFound();
+            }
+            if (applicationUserId == null)
             {
                 return NotFound();
             }
 
             FavouriteList = await _context.FavouriteLists
-                .Include(f => f.ApplicationUser)
-                .Include(f => f.Recipe).FirstOrDefaultAsync(m => m.ApplicationUserID == id);
+                .Include(f => f.ApplicationUser).Where(a => a.ApplicationUserID == applicationUserId)
+                .Include(f => f.Recipe).FirstOrDefaultAsync(m => m.RecipeID == recipeId);
 
             if (FavouriteList == null)
             {
@@ -40,14 +44,18 @@ namespace NET_Projekt.Pages.FavouriteLists
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string id)
+        public async Task<IActionResult> OnPostAsync(string applicationUserId, int? recipeId)
         {
-            if (id == null)
+            if (recipeId == null)
+            {
+                return NotFound();
+            }
+            if (applicationUserId == null)
             {
                 return NotFound();
             }
 
-            FavouriteList = await _context.FavouriteLists.FindAsync(id);
+            FavouriteList = await _context.FavouriteLists.FindAsync(applicationUserId, recipeId);
 
             if (FavouriteList != null)
             {
