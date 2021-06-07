@@ -25,6 +25,7 @@ namespace NET_Projekt.Models
         [Required]
         [Display(Name = "Data Publikacji")]
         public DateTime PublicationDate { get; set; }
+        public bool? Favourite { get; set; }
         public string ApplicationUserID { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public ICollection<CategoryRecipe> CategoryRecipes { get; set; }

@@ -91,10 +91,13 @@
         }
         @if(UserManager.GetUserId(User)==Model.Recipe.ApplicationUserID)
         {
-            <dd class="col-sm-10">
-                <a asp-page="../CategoryRecipes/Create" asp-route-id="@Model.Recipe.Id" asp-route-name="@Model.Recipe.Name">Add To Category</a> |
-                <a asp-page="../CategoryRecipes/Index" asp-route-id="@Model.Recipe.Id">Delete From Category</a>
-            </dd>      
+    <dd class="col-sm-10">
+        <a asp-page="../CategoryRecipes/Create" asp-route-id="@Model.Recipe.Id" asp-route-name="@Model.Recipe.Name">Add To Category</a> |
+        <a asp-page="../CategoryRecipes/Index" asp-route-id="@Model.Recipe.Id">Delete From Category</a>
+        @*@<a asp-page="../Recipes/Index" asp-route-id="@Model.Recipe.Favourite">Dodaj do ulubionych</a>
+        <a class="btn btn-outline-dark" asp-page="./Recipes/Index">Moje Ulubione</a>
+        <input type="submit" asp-for="NET_Projekt.Pages.Recipes.Recipe.Favourite" value="Dodaj do ulubionych" class="btn btn-primary" />*@
+    </dd>      
         }
 </dl>
 
