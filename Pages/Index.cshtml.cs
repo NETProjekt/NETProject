@@ -23,6 +23,7 @@ namespace NET_Projekt.Pages
         }
         [BindProperty(SupportsGet =true)]
         public int? CategoryRecipe { get; set; }
+        [BindProperty(SupportsGet =true)]
         public string Recipe { get; set; }
         public string Username { get; set; }
         public new ApplicationUser User { get; set; }
@@ -43,12 +44,12 @@ namespace NET_Projekt.Pages
 
             if (Recipe != null)
             {
-                Recipes = (IList<Recipe>)_context.Recipes.Where(r => r.Name.Contains(Recipe));
+                Recipes = _context.Recipes.Where(r => r.Name.Contains(Recipe)).ToList();
             }
 
             if (Username != null)
             {
-                User = (ApplicationUser)_context.Recipes.Where(r => r.ApplicationUser.UserName.Contains(Username));
+                User = (ApplicationUser)_context.Recipes.Where(r => r.ApplicationUser.Equals(Username));
             }
         }
     }
