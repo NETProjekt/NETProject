@@ -1,0 +1,39 @@
+﻿@page
+@model NET_Projekt.Pages.Recipes.AuthorsModel
+@{
+    ViewData["Title"] = "Authors";
+}
+
+<h1>Autorzy</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipe[0].ApplicationUser.UserName)
+            </th>
+            
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Recipe)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                </td>
+               
+
+
+                <td>
+                    <a asp-page="./Profile" asp-route-id="@item.Id" asp-route-name="@item.Name">Profil</a>
+                   
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
