@@ -50,7 +50,7 @@
         </dt>
         <dd class="col-sm-10">
             <a style="color:forestgreen">Plusy:</a> @Html.DisplayFor(model => model.Raiting) | <a style="color:red">Minusy:</a> @(Model.Raitings.Count - Model.Raiting)
-        </dd>       
+        </dd>
     </dl>
     <div class="progress mb-4" style="width: 35%;">
         <div class="progress-bar bg-success" role="progressbar" style="width: @Model.Ratio%" aria-valuenow="@Model.Ratio" aria-valuemin="0" aria-valuemax="100">@Model.Ratio %</div>
@@ -62,8 +62,6 @@
         @if (SignInManager.IsSignedIn(User))
         {
             <dd class="col-sm-10">
-                @*<a asp-page="../Raitings/Create" asp-route-recipeId="@Model.Recipe.Id" asp-route-applicationUserId="@Model.Recipe.ApplicationUserID" asp-route-isPositive="1" style="color:forestgreen">+</a>
-                | <a asp-page="../Raitings/Create" asp-route-id="@Model.Recipe.Id" asp-route-applicationUserId="@Model.Recipe.ApplicationUserID" asp-route-isPositive="0" style="color:red">-</a>*@
                 <form method="post">
                     <div class="form-check form-check-inline">
                         <input type="radio" asp-for="@Model.IsPositive" class="form-check-input" value="true" id="radio1" checked />
@@ -72,10 +70,10 @@
                         <label asp-for="@Model.NewRaiting.IsPositive" class="form-check-label mr-2" for="radio2"><a style="color:red">-</a></label>
                         @*<input type="hidden" asp-for="@Model.Recipe.Id" class="form-control"/>*@
                         <input asp-route-id="@Model.Recipe.Id" type="submit" value="Oceń" class="btn btn-light mr-2" />
-                        @if(Model.isRated)
+                        @if (Model.isRated)
                         {
                             <input asp-route-recipeId="@Model.Recipe.Id" asp-route-applicationUserId="@UserManager.GetUserId(User)" asp-page-handler="Delete" type="submit" value="Cofnij Ocenę" class="btn btn-light mr-2" />
-                        }                           
+                        }
                         @if (!Model.ModelState.IsValid)
                         {
                             <article style="color:red">Zaznacz jedną z opcji przed naciśnięciem przycisku</article>
@@ -89,17 +87,21 @@
             <dd class="col-sm-10 text-secondary">Musisz być zalogowany aby oddać głos!</dd>
 
         }
-        @if(UserManager.GetUserId(User)==Model.Recipe.ApplicationUserID)
+        @if (SignInManager.IsSignedIn(User))
         {
-    <dd class="col-sm-10">
-        <a asp-page="../CategoryRecipes/Create" asp-route-id="@Model.Recipe.Id" asp-route-name="@Model.Recipe.Name">Add To Category</a> |
-        <a asp-page="../CategoryRecipes/Index" asp-route-id="@Model.Recipe.Id">Delete From Category</a>
-        @*@<a asp-page="../Recipes/Index" asp-route-id="@Model.Recipe.Favourite">Dodaj do ulubionych</a>
-        <a class="btn btn-outline-dark" asp-page="./Recipes/Index">Moje Ulubione</a>
-        <input type="submit" asp-for="NET_Projekt.Pages.Recipes.Recipe.Favourite" value="Dodaj do ulubionych" class="btn btn-primary" />*@
-    </dd>      
+            <dd class="col-sm-10">
+                <a asp-page="../FavouriteLists/Create" asp-route-id="@Model.Recipe.Id" asp-route-name="@Model.Recipe.Name">Dodaj Do Ulubionych</a>
+            </dd>
         }
-</dl>
+        @if (UserManager.GetUserId(User) == Model.Recipe.ApplicationUserID)
+        {
+            <dd class="col-sm-10">
+                <a asp-page="../CategoryRecipes/Create" asp-route-id="@Model.Recipe.Id" asp-route-name="@Model.Recipe.Name">Dodaj Do Kategorii</a> |
+                <a asp-page="../CategoryRecipes/Index" asp-route-id="@Model.Recipe.Id">Usuń Z Kategorii</a>
+            </dd>
+
+        }
+    </dl>
 
 </div>
 <div>

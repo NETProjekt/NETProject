@@ -12,6 +12,7 @@ namespace NET_Projekt.Data
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryRecipe> CategoryRecipes { get; set; }
+        public DbSet<FavouriteList> FavouriteLists { get; set; }
         public DbSet<Raiting> Raitings { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -51,6 +52,17 @@ namespace NET_Projekt.Data
             modelBuilder.Entity<Raiting>()
                 .HasOne(bc => bc.Recipe)
                 .WithMany(c => c.Raitings)
+                .HasForeignKey(bc => bc.RecipeID);
+
+            modelBuilder.Entity<FavouriteList>()
+                .HasKey(bc => new { bc.ApplicationUserID, bc.RecipeID });
+            modelBuilder.Entity<FavouriteList>()
+                .HasOne(bc => bc.ApplicationUser)
+                .WithMany(b => b.FavouriteLists)
+                .HasForeignKey(bc => bc.ApplicationUserID);
+            modelBuilder.Entity<FavouriteList>()
+                .HasOne(bc => bc.Recipe)
+                .WithMany(c => c.FavouriteLists)
                 .HasForeignKey(bc => bc.RecipeID);
         }
     }

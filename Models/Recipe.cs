@@ -29,5 +29,6 @@ namespace NET_Projekt.Models
         public ApplicationUser ApplicationUser { get; set; }
         public ICollection<CategoryRecipe> CategoryRecipes { get; set; }
         public ICollection<Raiting> Raitings { get; set; }
+        public List<FavouriteList> FavouriteLists { get; set; }
     }
 }

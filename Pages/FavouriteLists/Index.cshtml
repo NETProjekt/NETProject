@@ -1,0 +1,20 @@
+﻿@page
+@model NET_Projekt.Pages.FavouriteLists.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@foreach (var item in Model.FavouriteList)
+{
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Nazwa: @item.Recipe.Name</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Autor: @item.Recipe.ApplicationUser.UserName</h6>
+            <a class="card-link" asp-page="../Recipes/Details" asp-route-id="@item.Recipe.Id">Szczegóły</a>
+            <a class="card-link" asp-page="./Delete" asp-route-recipeId="@item.Recipe.Id" asp-route-applicationUserId="@item.ApplicationUser.Id">Usuń Z Ulubionych</a>
+        </div>
+    </div>
+}

@@ -1,0 +1,35 @@
+﻿@page
+@model NET_Projekt.Pages.FavouriteLists.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Czy na pewno chcesz usunąć ten przepis z ulubionych?</h3>
+<div>
+    <h4>FavouriteList</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FavouriteList.Recipe.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FavouriteList.Recipe.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FavouriteList.ApplicationUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FavouriteList.ApplicationUser.UserName)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="FavouriteList.ApplicationUserID" />
+        <input type="hidden" asp-for="FavouriteList.RecipeID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Usuń</a>
+    </form>
+</div>
