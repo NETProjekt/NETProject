@@ -303,9 +303,6 @@ namespace NET_Projekt.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(3000)");
 
-                    b.Property<bool?>("Favourite")
-                        .HasColumnType("bit");
-
                     b.Property<string>("IngredientsList")
                         .IsRequired()
                         .HasColumnType("varchar(1000)");

@@ -15,6 +15,7 @@ namespace NET_Projekt.Pages.Recipes
     {
         private readonly NET_Projekt.Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        public bool isInFavourite { get; set; }
         public bool isRated { get; set; }
         public int Raiting { get; set; }
         public int Ratio { get; set; }
@@ -24,6 +25,7 @@ namespace NET_Projekt.Pages.Recipes
             _context = context;
             _userManager = userManager;
         }
+        public FavouriteList FavouriteList { get; set; }
         public Recipe Recipe { get; set; }
         public Raiting NewRaiting { get; set; }
         public IList<Raiting> Raitings { get; set; }
@@ -68,7 +70,6 @@ namespace NET_Projekt.Pages.Recipes
                 NewRaiting.ApplicationUserID = _userManager.GetUserId(User);
                 NewRaiting.RecipeID = (int)id;
                 NewRaiting.IsPositive = IsPositive;
-                //_context.Update(NewRaiting);
                 await _context.SaveChangesAsync();
             }
             await GetData(id);
@@ -95,8 +96,30 @@ namespace NET_Projekt.Pages.Recipes
             await GetData(recipeId);
             return Page(); 
         }
+        public async Task<IActionResult> OnPostFavourite(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            string applicationUser = _userManager.GetUserId(User);
+            FavouriteList = new FavouriteList();
+            FavouriteList.ApplicationUserID = _userManager.GetUserId(User);
+            FavouriteList.RecipeID = (int)id;
+
+            if (await _context.FavouriteLists.FindAsync(applicationUser, id) == null)
+            {
+                _context.FavouriteLists.Add(FavouriteList);
+                await _context.SaveChangesAsync();
+            }
+            await GetData(id);
+            return Page();
+        }
         public async Task<IActionResult> GetData(int? id)
         {
+            FavouriteList = await _context.FavouriteLists.FindAsync(_userManager.GetUserId(User), id);
+
             Recipe = await _context.Recipes
                 .Include(r => r.ApplicationUser).FirstOrDefaultAsync(m => m.Id == id);
 
@@ -105,6 +128,10 @@ namespace NET_Projekt.Pages.Recipes
 
             int sum = 0;
             isRated = false;
+            isInFavourite = true;
+
+            if (FavouriteList == null)
+                isInFavourite = false;
 
             foreach (var item in Raitings)
             {

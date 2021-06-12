@@ -87,10 +87,18 @@
             <dd class="col-sm-10 text-secondary">Musisz być zalogowany aby oddać głos!</dd>
 
         }
-        @if (SignInManager.IsSignedIn(User))
+        @if (SignInManager.IsSignedIn(User) && Model.isInFavourite == false)
         {
             <dd class="col-sm-10">
-                <a asp-page="../FavouriteLists/Create" asp-route-id="@Model.Recipe.Id" asp-route-name="@Model.Recipe.Name">Dodaj Do Ulubionych</a>
+                <form method="post">
+                    <button class="btn btn-light" type="submit" asp-page-handler="Favourite" asp-route-id="@Model.Recipe.Id">Dodaj Do Ulubionych</button>
+                </form>
+            </dd>
+        }
+        else if (SignInManager.IsSignedIn(User) && Model.isInFavourite == true)
+        {
+            <dd class="col-sm-10">
+                <a asp-page="../FavouriteLists/Index">Przepis znajduje się w twojej liście ulubionych!</a>
             </dd>
         }
         @if (UserManager.GetUserId(User) == Model.Recipe.ApplicationUserID)
@@ -99,7 +107,6 @@
                 <a asp-page="../CategoryRecipes/Create" asp-route-id="@Model.Recipe.Id" asp-route-name="@Model.Recipe.Name">Dodaj Do Kategorii</a> |
                 <a asp-page="../CategoryRecipes/Index" asp-route-id="@Model.Recipe.Id">Usuń Z Kategorii</a>
             </dd>
-
         }
     </dl>
 

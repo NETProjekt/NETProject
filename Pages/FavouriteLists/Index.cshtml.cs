@@ -31,6 +31,7 @@ namespace NET_Projekt.Pages.FavouriteLists
             FavouriteList = await _context.FavouriteLists
                 .Include(f => f.ApplicationUser).Where(m => m.ApplicationUserID == _userManager.GetUserId(User))
                 .Include(f => f.Recipe)
+                .ThenInclude(a => a.ApplicationUser)
                 .ToListAsync();
         }
     }
