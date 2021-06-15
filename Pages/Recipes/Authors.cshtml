@@ -6,14 +6,22 @@
 
 <h1>Autorzy</h1>
 
+@{int i = 0; int zmienna = 0; string[] arr = new string [Model.Recipe.Count];
 
+    for (int j = 0; j < Model.Recipe.Count; j++)
+    {
+        arr[j] = Model.Recipe[j].ApplicationUser.UserName;
+    }
+
+
+    }
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Recipe[0].ApplicationUser.UserName)
             </th>
-            
+
 
 
             <th></th>
@@ -22,18 +30,42 @@
     <tbody>
         @foreach (var item in Model.Recipe)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
-                </td>
-               
+            
+
+                @for (int l = 0; l < i; l++)
+                {
+                    if(arr[i] == arr[l])
+                    {
+                        zmienna++;
+                    }
 
 
-                <td>
-                    <a asp-page="./Profile" asp-route-id="@item.Id" asp-route-name="@item.Name">Profil</a>
-                   
-                </td>
-            </tr>
+                }
+
+            
+
+
+            if (zmienna == 0)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                    </td>
+
+
+
+                    <td>
+                        <a asp-page="./Profile" asp-route-id="@item.Id" asp-route-name="@item.Name">Profil</a>
+
+                    </td>
+                </tr>
+
+            }
+
+
+            i++;
+            zmienna = 0;
+
         }
     </tbody>
 </table>

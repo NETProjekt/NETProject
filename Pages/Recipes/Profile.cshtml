@@ -6,6 +6,8 @@
 <h1>Profil</h1>
 
 
+
+
 <table class="table">
     <thead>
         <tr>
@@ -26,24 +28,26 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Recipe)
-        {
+        
+            @for (int i = Model.Recipe.Count-1; i >= 0; i--)
+            {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => Model.Recipe[i].Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IngredientsList)
+                    @Html.DisplayFor(modelItem => Model.Recipe[i].IngredientsList)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Content)
+                    @Html.DisplayFor(modelItem => Model.Recipe[i].Content)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PublicationDate)
+                    @Html.DisplayFor(modelItem => Model.Recipe[i].PublicationDate)
                 </td>
 
                 
             </tr>
-        }
+            }
+        
     </tbody>
 </table>
