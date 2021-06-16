@@ -39,8 +39,9 @@ namespace NET_Projekt.Pages
         public void OnGet()
         {
             Raitings = _context.Raitings.ToList();
-            AllRecipes = _context.Recipes.ToList();
-
+            AllRecipes = _context.Recipes
+                        .Include(r => r.ApplicationUser).ToList();
+            Sort = new Dictionary<Recipe, int>();
             int sum = 0;
             foreach (var item in AllRecipes)
             {
@@ -53,11 +54,15 @@ namespace NET_Projekt.Pages
             }
             var sortedDict = from entry in Sort orderby entry.Value descending select entry;
 
-            Sort = (Dictionary<Recipe, int>)sortedDict;
-
-            //trzeba zeby wzielo tylko 10 przepisow
-            Top10Re = Sort.Take(10);
-
+            Top10Re = new List<Recipe>();
+            int counter = 0;
+            foreach (KeyValuePair<Recipe, int> entry in sortedDict)
+            {
+                if (counter >= 10)
+                    break;
+                Top10Re.Add(entry.Key);
+                counter++;
+            }
 
             ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
             if (CategoryRecipe != null)

@@ -62,6 +62,24 @@
     }
 }
 
+@if (Model.Top10Re != null)
+{
+    @foreach (var item in Model.Top10Re)
+    {
+        <h3>
+            @Html.DisplayNameFor(model => item.Name):
+            @item.Name
+        </h3>
+        <p>
+            Autor:
+            @item.ApplicationUser.UserName
+        </p>
+        <p>
+            <a asp-page="./Recipes/Details" asp-route-id="@item.Id">Details</a>
+        </p>
+        }
+}
+
 @if (Model.CategoryRecipe != null)
 {
     @foreach (var item in Model.CategoryRecipes)
