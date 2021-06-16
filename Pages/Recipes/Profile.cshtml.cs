@@ -25,10 +25,10 @@ namespace NET_Projekt.Pages.Recipes
 
         public IList<Recipe> Recipe { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string id)
         {
             Recipe = await _context.Recipes
-                .Include(r => r.ApplicationUser).ToListAsync();
+                .Include(r => r.ApplicationUser).Where(r => r.ApplicationUserID==id).OrderByDescending(r => r.PublicationDate).ToListAsync();
         }
     }
 }

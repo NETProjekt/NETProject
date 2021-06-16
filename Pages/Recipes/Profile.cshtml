@@ -29,20 +29,20 @@
     </thead>
     <tbody>
         
-            @for (int i = Model.Recipe.Count-1; i >= 0; i--)
+            @foreach(var item in Model.Recipe)
             {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.Recipe[i].Name)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.Recipe[i].IngredientsList)
+                    @Html.DisplayFor(modelItem => item.IngredientsList)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.Recipe[i].Content)
+                    @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.Recipe[i].PublicationDate)
+                    @Html.DisplayFor(modelItem => item.PublicationDate)
                 </td>
 
                 
