@@ -21,18 +21,44 @@ namespace NET_Projekt.Pages
             _logger = logger;
             _context = context;
         }
-        [BindProperty(SupportsGet =true)]
+        [BindProperty(SupportsGet = true)]
         public int? CategoryRecipe { get; set; }
-        [BindProperty(SupportsGet =true)]
+        [BindProperty(SupportsGet = true)]
         public string Recipe { get; set; }
+        [BindProperty(SupportsGet = true)]
         public string Username { get; set; }
         public new ApplicationUser User { get; set; }
+        public Dictionary<Recipe, int> Sort { get; set; }
         public IList<CategoryRecipe> CategoryRecipes { get; set; }
         public IList<Recipe> Recipes { get; set; }
+        public IList<Raiting> Raitings { get; set; }
+        public IList<Recipe> AllRecipes { get; set; }
+        public IList<Recipe> Top10Re { get; set; }
 
 
         public void OnGet()
         {
+            Raitings = _context.Raitings.ToList();
+            AllRecipes = _context.Recipes.ToList();
+
+            int sum = 0;
+            foreach (var item in AllRecipes)
+            {
+                foreach (var rat in Raitings)
+                {
+                    if (item.Id == rat.RecipeID && rat.IsPositive == true)
+                        sum += Convert.ToInt32(rat.IsPositive);
+                }
+                Sort.Add(item, sum);
+            }
+            var sortedDict = from entry in Sort orderby entry.Value descending select entry;
+
+            Sort = (Dictionary<Recipe, int>)sortedDict;
+
+            //trzeba zeby wzielo tylko 10 przepisow
+            Top10Re = Sort.Take(10);
+
+
             ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
             if (CategoryRecipe != null)
             {
@@ -41,16 +67,31 @@ namespace NET_Projekt.Pages
                 .Include(c => c.Recipe)
                 .Include(u => u.Recipe.ApplicationUser).ToList();
             }
-
-            if (Recipe != null)
-            {
-                Recipes = _context.Recipes.Where(r => r.Name.Contains(Recipe)).ToList();
-            }
-
+        }
+        public void OnGetUsername()
+        {
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
             if (Username != null)
             {
-                User = (ApplicationUser)_context.Recipes.Where(r => r.ApplicationUser.Equals(Username));
+                Recipes = _context.Recipes
+                    .Where(r => r.ApplicationUser.UserName.Contains(Username))
+                    .Include(u => u.ApplicationUser)
+                    .OrderByDescending(r => r.PublicationDate)
+                    .ToList();
             }
         }
+        public void OnGetName()
+        {
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
+            if (Recipe != null)
+            {
+                Recipes = _context.Recipes
+                    .Where(r => r.Name.Contains(Recipe))
+                    .Include(u => u.ApplicationUser)
+                    .OrderByDescending(r => r.PublicationDate)
+                    .ToList();
+            }
+        }
+
     }
 }
