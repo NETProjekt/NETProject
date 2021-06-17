@@ -44,6 +44,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PublicationDate)
                 </td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a>
+                </td>
 
                 
             </tr>
