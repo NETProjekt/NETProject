@@ -26,96 +26,89 @@
     </div>
     <input type="submit" value="Szukaj" class="btn btn-primary" />
 </form>
-<form method="get">
-    <div class="form-group">
-        <h5>Wyszukaj przepisy po nazwie: </h5>
-        <input asp-for="Recipe" /><br />
-        <input type="hidden" name="handler" value="Name" /><br />
-        <input type="submit" value="Szukaj" class="btn btn-primary" />
+<div class="form-row">
+    <div class="col-md-6 mb-6">
+        <form method="get">
+            <div class="form-group mt-2">
+                <h6>Wyszukaj przepisy po nazwie: </h6>
+                <input asp-for="Recipe" class="form-control" /><br />
+                <input type="submit" value="Szukaj" class="btn btn-primary" />
+                <input type="hidden" name="handler" value="Name" /><br />
+            </div>
+        </form>
     </div>
-</form>
-<form method="get">
-    <div class="form-group">
-        <h5>Wyszukaj przepisy po autorze: </h5>
-        <input asp-for="Username" /><br />
-        <input type="hidden" name="handler" value="Username" /><br />
-        <input type="submit" value="Szukaj" class="btn btn-primary" />
+    <div class="col-md-6 mb-6">
+        <form method="get">
+            <div class="form-group mt-2">
+                <h6>Wyszukaj przepisy po autorze: </h6>
+                <input asp-for="Username" class="form-control" /><br />
+                <input type="submit" value="Szukaj" class="btn btn-primary" />
+                <input type="hidden" name="handler" value="Username" /><br />
+            </div>
+        </form>
     </div>
-</form>
-
-
-@if (Model.CategoryRecipe != null)
-{
-    @foreach (var item in Model.CategoryRecipes)
-    {
-        <h3>
-            @Html.DisplayNameFor(model => item.Recipe.Name):
-            @item.Recipe.Name
-        </h3>
-        <p>
-            Autor:
-            @item.Recipe.ApplicationUser.UserName
-        </p>
-        <p>
-            <a asp-page="./Recipes/Details" asp-route-id="@item.RecipeID">Details</a>
-        </p>
-    }
-}
-
-@if (Model.Top10Re != null)
-{
-    @foreach (var item in Model.Top10Re)
-    {
-        <h3>
-            @Html.DisplayNameFor(model => item.Name):
-            @item.Name
-        </h3>
-        <p>
-            Autor:
-            @item.ApplicationUser.UserName
-        </p>
-        <p>
-            <a asp-page="./Recipes/Details" asp-route-id="@item.Id">Details</a>
-        </p>
-        }
-}
-
-@if (Model.CategoryRecipe != null)
-{
-    @foreach (var item in Model.CategoryRecipes)
-    {
-        <h3>
-            @Html.DisplayNameFor(model => item.Recipe.Name):
-            @item.Recipe.Name
-        </h3>
-        <p>
-            Autor:
-            @item.Recipe.ApplicationUser.UserName
-        </p>
-        <p>
-            <a asp-page="./Recipes/Details" asp-route-id="@item.RecipeID">Details</a>
-        </p>
-    }
-}
-
-
-@if (Model.Recipes != null)
-{
-    @foreach (var item in Model.Recipes)
-    {
+</div>
+<div class="form-row">
+    <div class="col-md-6 mb-6">
+        @if (Model.Top10Re != null)
         {
-            <h3>
-                @Html.DisplayNameFor(model => item.Name):
-                @item.Name
-            </h3>
-            <p>
-                Autor:
-                @item.ApplicationUser.UserName
-            </p>
-            <p>
-                <a asp-page="./Recipes/Details" asp-route-id="@item.Id">Details</a>
-            </p>
+            <h2>TOP 10 Najlepszych Przepisów</h2>
+            @foreach (var item in Model.Top10Re)
+            {
+                <h3>
+                    @Html.DisplayNameFor(model => item.Name):
+                    @item.Name
+                </h3>
+                <p>
+                    Autor:
+                    @item.ApplicationUser.UserName<br/>
+                    Ocena:
+                    @Model.Sort.GetValueOrDefault(item)
+                </p>
+                <p>
+                    <a asp-page="./Recipes/Details" asp-route-id="@item.Id">Szczegóły</a>
+                </p>
+            }
         }
-    }
-}
-
+    </div>
+    <div class="col-md-6 mb-6">
+        @if (Model.CategoryRecipe != null)
+        {
+            <h2>Twoje Wyszukanie: </h2>
+            @foreach (var item in Model.CategoryRecipes)
+            {
+                <h3>
+                    @Html.DisplayNameFor(model => item.Recipe.Name):
+                    @item.Recipe.Name
+                </h3>
+                <p>
+                    Autor:
+                    @item.Recipe.ApplicationUser.UserName
+                </p>
+                <p>
+                    <a asp-page="./Recipes/Details" asp-route-id="@item.RecipeID">Szczegóły</a>
+                </p>
+            }
+        }
+        @if (Model.Recipes != null)
+        {
+            <h2>Twoje Wyszukanie: </h2>
+            @foreach (var item in Model.Recipes)
+            {
+                <h3>
+                    @Html.DisplayNameFor(model => item.Name):
+                    @item.Name
+                </h3>
+                <p>
+                    Autor:
+                    @item.ApplicationUser.UserName<br/>
+                    Data Publikacji:
+                    @item.PublicationDate
+                </p>                   
+                <p>
+                    <a asp-page="./Recipes/Details" asp-route-id="@item.Id">Details</a>
+                </p>
+            }
+        }
+    </div>
+</div>

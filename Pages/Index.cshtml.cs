@@ -28,7 +28,7 @@ namespace NET_Projekt.Pages
         [BindProperty(SupportsGet = true)]
         public string Username { get; set; }
         public new ApplicationUser User { get; set; }
-        public Dictionary<Recipe, int> Sort { get; set; }
+        public Dictionary<Recipe, decimal> Sort { get; set; }
         public IList<CategoryRecipe> CategoryRecipes { get; set; }
         public IList<Recipe> Recipes { get; set; }
         public IList<Raiting> Raitings { get; set; }
@@ -38,32 +38,7 @@ namespace NET_Projekt.Pages
 
         public void OnGet()
         {
-            Raitings = _context.Raitings.ToList();
-            AllRecipes = _context.Recipes
-                        .Include(r => r.ApplicationUser).ToList();
-            Sort = new Dictionary<Recipe, int>();
-            int sum = 0;
-            foreach (var item in AllRecipes)
-            {
-                foreach (var rat in Raitings)
-                {
-                    if (item.Id == rat.RecipeID && rat.IsPositive == true)
-                        sum += Convert.ToInt32(rat.IsPositive);
-                }
-                Sort.Add(item, sum);
-            }
-            var sortedDict = from entry in Sort orderby entry.Value descending select entry;
-
-            Top10Re = new List<Recipe>();
-            int counter = 0;
-            foreach (KeyValuePair<Recipe, int> entry in sortedDict)
-            {
-                if (counter >= 10)
-                    break;
-                Top10Re.Add(entry.Key);
-                counter++;
-            }
-
+            Top10();
             ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
             if (CategoryRecipe != null)
             {
@@ -75,6 +50,7 @@ namespace NET_Projekt.Pages
         }
         public void OnGetUsername()
         {
+            Top10();
             ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
             if (Username != null)
             {
@@ -87,6 +63,7 @@ namespace NET_Projekt.Pages
         }
         public void OnGetName()
         {
+            Top10();
             ViewData["CategoryID"] = new SelectList(_context.Categories, "Id", "Name");
             if (Recipe != null)
             {
@@ -97,6 +74,47 @@ namespace NET_Projekt.Pages
                     .ToList();
             }
         }
+        public void Top10()
+        {
+            Raitings = _context.Raitings.ToList();
+            AllRecipes = _context.Recipes
+                        .Include(r => r.ApplicationUser).ToList();
+            Sort = new Dictionary<Recipe, decimal>();
+            decimal sum = 0;
+            decimal count = 0;
+            foreach (var item in AllRecipes)
+            {
+                sum = 0;
+                count = 0;
+                foreach (var rat in Raitings)
+                {                   
+                    if (item.Id == rat.RecipeID)
+                    {
+                        count++;
+                        if(rat.IsPositive == true)
+                            sum += Convert.ToInt32(rat.IsPositive);
+                    }                        
+                }
+                if(count!=0)
+                {
+                    decimal raiting = sum / count;
+                    decimal raitingRounded = Math.Round(raiting, 2);
+                    Sort.Add(item, raitingRounded);
+                }
+                else
+                    Sort.Add(item, 0.5m);
+            }
+            var sortedDict = from entry in Sort orderby entry.Value descending select entry;
 
+            Top10Re = new List<Recipe>();
+            int counter = 0;
+            foreach (KeyValuePair<Recipe, decimal> entry in sortedDict)
+            {
+                if (counter >= 10)
+                    break;
+                Top10Re.Add(entry.Key);
+                counter++;
+            }
+        }
     }
 }

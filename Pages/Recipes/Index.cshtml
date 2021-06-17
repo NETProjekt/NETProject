@@ -5,10 +5,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Przepisy</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a class="btn btn-info" asp-page="Create">Nowy Przepis</a>
 </p>
 <table class="table">
     <thead>
@@ -47,11 +47,11 @@
             </td>
             
             <td>
-                <a asp-page="../CategoryRecipes/Create" asp-route-id="@item.Id" asp-route-name="@item.Name">Add To Category</a> |
-                <a asp-page="../CategoryRecipes/Index" asp-route-id="@item.Id">Delete From Category</a> |
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="../CategoryRecipes/Create" asp-route-id="@item.Id" asp-route-name="@item.Name">Dodaj do Kategorii</a> |
+                <a asp-page="../CategoryRecipes/Index" asp-route-id="@item.Id">Usuń Z Kategorii</a> |
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
             </td>
         </tr>
 }
